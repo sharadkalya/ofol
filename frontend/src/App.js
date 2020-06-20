@@ -1,61 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import reducers from './reducers';
+import Routes from './routes';
 
-class App extends Component {
+const store = createStore(reducers, applyMiddleware(thunk))
 
-  state = {
-    password: '',
-    username: ''
-  };
-
-  changeUsername = (e) => {
-    this.setState({
-      username: e.target.value
-    });
-  }
-
-  changePassword = (e) => {
-    this.setState({
-      password: e.target.value
-    });
-  }
-
-  onSubmit = (e) => {
-    e.preventDefault();
-
-    fetch('/login')
-      .then(res => res.json())
-      .then(res => alert(res.message));
-  }
-
-  render() {
-    return (
-      <div className='App'>
-        <h1>Login to ofol</h1>
-        <form
-          onSubmit={this.onSubmit}
-        >
-          <input
-            type='string'
-            name='username'
-            value={this.state.username}
-            placeholder='username'
-            onChange={this.changeUsername}
-          />
-          <input
-            type='password'
-            name='password'
-            value={this.state.password}
-            placeholder='password'
-            onChange={this.changePassword}
-          />
-          <input
-            type='submit'
-            onSubmit={this.submit}
-          />
-        </form>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Routes />
+  </Provider>
+)
 
 export default App;
