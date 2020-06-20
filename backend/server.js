@@ -5,18 +5,12 @@ require('dotenv/config');
 
 app.listen(3001);
 
-app.get('/dummy', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    const data = {
-        hello: "ofol test"
-    };
-    res.json(JSON.stringify(data));
-});
+// list all routes
+const login = require('./routes/login');
+const register = require('./routes/register');
+const user = require('./routes/user');
 
-app.get('/', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    const data = {
-        hello: "ofol test"
-    };
-    res.json(JSON.stringify(data));
-});
+
+app.use('/login', login);
+app.use('/register', register);
+app.use('/user', user);
