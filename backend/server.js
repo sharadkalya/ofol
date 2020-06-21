@@ -5,6 +5,7 @@ require('dotenv/config');
 
 const app = express();
 app.listen(3001);
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 const login = require('./routes/login');
