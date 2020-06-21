@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    max-height: 80px;
+    background-color: #74828e40;
+}
+
+.logo {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+}

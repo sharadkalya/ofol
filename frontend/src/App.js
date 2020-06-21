@@ -4,6 +4,9 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import Routes from './routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/css/App.css';
+
 
 const store = createStore(reducers, applyMiddleware(thunk))
 
