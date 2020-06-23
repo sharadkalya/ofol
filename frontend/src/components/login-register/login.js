@@ -38,6 +38,11 @@ export default class Register extends React.PureComponent {
             alert('Password length should be minimum 5');
             return;
         }
+
+        this.props.onLogin({
+            mobileNumber,
+            password
+        });
     };
 
     render() {

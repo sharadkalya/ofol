@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
-import { registerUser } from '../../action-creators/user';
-import { FullScreenLoader } from '../common/loaders';
-
 class Register extends React.PureComponent {
 
     state = {
@@ -46,7 +43,7 @@ class Register extends React.PureComponent {
             return;
         }
 
-        this.props.registerUser({
+        this.props.onRegister({
             first,
             last,
             mobileNumber,
@@ -105,21 +102,9 @@ class Register extends React.PureComponent {
                         Submit
                 </Button>
                 </Form>
-                <FullScreenLoader isVisible={this.props.fetchingUser} />
             </React.Fragment>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        fetchingUser: state.user.fetchingUser,
-        error: state.user.error,
-        userData: state.user.userData
-    }
-};
-
-
-export default connect(mapStateToProps, {
-    registerUser
-})(Register);
+export default Register

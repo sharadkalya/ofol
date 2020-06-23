@@ -1,14 +1,6 @@
-const express = require("express");
-const router = express.Router();
 const User = require('../models/User');
 
-router.get('/', (req, res) => {
-    res.json({
-        message: "register endpoint in progress"
-    });
-});
-
-router.post('/', async (req, res) => {
+const register = async (req, res) => {
     const first = req.body.first;
     const last = req.body.last;
     const mobileNumber = req.body.mobileNumber;
@@ -68,6 +60,6 @@ router.post('/', async (req, res) => {
             error: 'Connection to DB failed'
         });
     }
-})
+};
 
-module.exports = router;
+module.exports = register;
