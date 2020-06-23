@@ -8,9 +8,7 @@ app.listen(3001);
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
-const login = require('./routes/login');
-const register = require('./routes/register');
-const user = require('./routes/user');
+const routes = require('./routes');
 
 mongoose.connect(
     process.env.DB,
@@ -23,7 +21,4 @@ mongoose.connect(
     }
 );
 
-// list all routes
-app.use('/login', login);
-app.use('/register', register);
-app.use('/user', user);
+app.use('/api', routes);
