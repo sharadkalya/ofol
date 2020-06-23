@@ -25,12 +25,12 @@ export default class Register extends React.PureComponent {
         const requiredFields = mobileNumber && password;
         
         if (!requiredFields) {
-            alert('Please fill all mandatory fields')
+            alert('Please fill all mandatory fields');
             return;
         }
     
         if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
-            alert('Invalid mobile number');
+            alert('Invalid mobile number')
             return;
         }
     
