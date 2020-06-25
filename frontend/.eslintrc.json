@@ -3,18 +3,30 @@
     "extends": ["airbnb", "airbnb/hooks", "prettier", "prettier/react"],
     "plugins": ["prettier"],
     "rules": {
+      "comma-dangle": ["error", "never"],
       "react/jsx-filename-extension": [
         1,
         {
           "extensions": [".js", ".jsx"]
         }
       ],
-      "react/prop-types": 0,
+      "no-multiple-empty-lines": "error",
       "no-underscore-dangle": 0,
+      "no-trailing-spaces": "error",
       "import/imports-first": ["error", "absolute-first"],
       "import/newline-after-import": "error",
       "import/prefer-default-export": 0,
-      "semi": "error"
+      "indent": ["error", 4, { "SwitchCase": 1 }],
+      "react/prop-types": ["error"],
+      "react/jsx-sort-props": ["error", {
+        "shorthandFirst": true,
+        "shorthandLast": false,
+        "ignoreCase": false,
+        "noSortAlphabetically": false,
+        "reservedFirst": true
+      }],
+      "semi": "error",
+      "sort-keys": ["error", "asc", {"caseSensitive": true, "natural": false, "minKeys": 2}]
     },
     "globals": {
       "window": true,

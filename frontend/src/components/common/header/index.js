@@ -2,26 +2,43 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { logout } from '../../../action-creators/user';
 import logo from '../../../assets/images/logo.png';
 import styles from './header.module.css';
 
-const header = React.memo((props) => {
+const Header = React.memo((props) => {
     const onRegisterLogin = () => {
         props.history.push('/login');
+    };
+
+    const onLogout = () => {
+        props.logout();
     };
 
     return (
         <header className={styles.header}>
             <div>
                 <img
+                    alt='ofol'
                     className={styles.logo}
                     src={logo}
                 />
             </div>
             {props.isAuthenticated ? (
-                <h3>Hi User</h3>
-            ) : (
-                    <React.Fragment>
+                <div>
+                    <h3>Hi User</h3>
+                    <Button
+                        onClick={onLogout}
+                        variant='link'
+                    >
+                        Logout
+                    </Button>
+                </div>
+            )
+                :
+                (
+                    <>
                         {!props.history.location.pathname.includes('login') && (
                             <div className={styles.buttonWrapper}>
                                 <Button
@@ -32,20 +49,27 @@ const header = React.memo((props) => {
                                 </Button>
                             </div>
                         )}
-                    </React.Fragment>
+                    </>
                 )
             }
         </header>
-    )
+    );
 });
+
+Header.propTypes = {
+    history: PropTypes.objectOf(Object).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    logout: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.user.isAuthenticated,
-        showLoginButtons: state.appState.showLoginButtons
+        isAuthenticated: state.user.isAuthenticated
     };
-}
+};
 
-const HeaderWithRouter = withRouter(header)
+const HeaderWithRouter = withRouter(Header);
 
-export default connect(mapStateToProps)(HeaderWithRouter);
+export default connect(mapStateToProps, {
+    logout
+})(HeaderWithRouter);
