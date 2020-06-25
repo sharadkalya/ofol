@@ -1,11 +1,11 @@
-import { USER_REGISTRATION_IN_PROGRESS, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_FAILED } from "../actions";
+import { USER_REGISTRATION_IN_PROGRESS, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_FAILED, LOGIN_USER } from "../actions";
 import * as endpoints from '../endpoints';
 
-const loginRegister = (details, URL) => {
+const loginRegister = (details, URL, history) => {
     return (dispatch) => {
         dispatch({
             type: USER_REGISTRATION_IN_PROGRESS
-        })
+        });
 
         fetch(URL, {
             headers: {
@@ -17,20 +17,19 @@ const loginRegister = (details, URL) => {
             .then(res => res.json())
             .then(res => {
                 setTimeout(() => {
-                    console.log('stop loader');
                     if (res.error) {
                         dispatch({
                             type: USER_REGISTRATION_FAILED,
                             payload: res.error
-                        })
+                        });
                     } else {
                         dispatch({
                             type: USER_REGISTRATION_SUCCESS,
                             payload: res
                         });
+                        history.replace('/');
                     }
-
-                }, 3000);
+                }, 1000);
             })
             .catch((error) => {
                 dispatch({
@@ -42,10 +41,16 @@ const loginRegister = (details, URL) => {
 };
 
 
-export const loginUser = (details) => {
-    return dispatch => loginRegister(details, endpoints.login)(dispatch);
+export const loginUser = (details, history) => {
+    return dispatch => loginRegister(details, endpoints.login, history)(dispatch);
 };
 
-export const registerUser = (details) => {
-    return dispatch => loginRegister(details, endpoints.register)(dispatch);
+export const registerUser = (details, history) => {
+    return dispatch => loginRegister(details, endpoints.register, history)(dispatch);
+};
+
+export const existingUserLogin = () => {
+    return {
+        type: LOGIN_USER
+    };
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
 class Register extends React.PureComponent {
 
@@ -24,7 +23,7 @@ class Register extends React.PureComponent {
             last,
             mobileNumber,
             password
-        } = this.state
+        } = this.state;
 
         const requiredFields = first && last && mobileNumber && password;
 
@@ -43,22 +42,22 @@ class Register extends React.PureComponent {
             return;
         }
 
-        this.props.onRegister({
+        const details = {
             first,
             last,
             mobileNumber,
             password
-        });
+        };
+        const { history } = this.props;
+
+        this.props.onRegister(details, history);
     };
 
     render() {
-        console.log('props.user', this.props.user);
-        console.log('props.error', this.props.error);
-
         return (
-            <React.Fragment>
+            <>
                 <Form onSubmit={this.onSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group >
                         <Form.Label>First</Form.Label>
                         <Form.Control
                             type="text"
@@ -68,7 +67,7 @@ class Register extends React.PureComponent {
                             name='first'
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group >
                         <Form.Label>Last</Form.Label>
                         <Form.Control
                             type="text"
@@ -78,7 +77,7 @@ class Register extends React.PureComponent {
                             name='last'
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group >
                         <Form.Label>Mobile Number</Form.Label>
                         <Form.Control
                             type="text"
@@ -88,7 +87,7 @@ class Register extends React.PureComponent {
                             name='mobileNumber'
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword" onChange={this.changePassword}>
+                    <Form.Group onChange={this.changePassword}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -102,9 +101,9 @@ class Register extends React.PureComponent {
                         Submit
                 </Button>
                 </Form>
-            </React.Fragment>
-        )
+            </>
+        );
     }
 }
 
-export default Register
+export default Register;
