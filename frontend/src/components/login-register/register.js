@@ -1,44 +1,42 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import Input from '../common/input';
+
 class Register extends React.PureComponent {
 
-    state = {
-        first: '',
-        last: '',
-        mobileNumber: '',
-        password: ''
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            first: '',
+            isSubmitted: false,
+            last: '',
+            mobileNumber: '',
+            password: ''
+        };
+    }
 
-    changeField = (e) => {
+    changeField = (key, value) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [key]: value
         });
     };
 
     onSubmit = (e) => {
         e.preventDefault();
 
+        this.setState({
+            isSubmitted: true
+        });
         const {
             first,
             last,
             mobileNumber,
             password
         } = this.state;
-
         const requiredFields = first && last && mobileNumber && password;
 
         if (!requiredFields) {
-            alert('Please fill all mandatory fields')
-            return;
-        }
-
-        if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
-            alert('Invalid mobile number');
-            return;
-        }
-
-        if (password.length < 5) {
-            alert('Password length should be minimum 5');
             return;
         }
 
@@ -48,62 +46,68 @@ class Register extends React.PureComponent {
             mobileNumber,
             password
         };
-        const { history } = this.props;
+        const { history, onRegister} = this.props;
 
-        this.props.onRegister(details, history);
+        onRegister(details, history);
     };
 
     render() {
+        const { isSubmitted } = this.state;
+
         return (
             <>
                 <Form onSubmit={this.onSubmit}>
-                    <Form.Group >
-                        <Form.Label>First</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter your first name"
-                            onChange={this.changeField}
-                            value={this.state.first}
-                            name='first'
-                        />
-                    </Form.Group>
-                    <Form.Group >
-                        <Form.Label>Last</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter your last name"
-                            onChange={this.changeField}
-                            value={this.state.last}
-                            name='last'
-                        />
-                    </Form.Group>
-                    <Form.Group >
-                        <Form.Label>Mobile Number</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter your mobile number"
-                            onChange={this.changeField}
-                            value={this.state.mobileNumber}
-                            name='mobileNumber'
-                        />
-                    </Form.Group>
-                    <Form.Group onChange={this.changePassword}>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            onChange={this.changeField}
-                            value={this.state.password}
-                            name='password'
-                        />
-                    </Form.Group>
+                    <Input
+                        errorMessage='Please enter your first name!'
+                        isSubmitted={isSubmitted}
+                        label='First'
+                        name='first'
+                        onChange={this.changeField}
+                        placeholder='Enter your first name'
+                        type='text'
+                    />
+                    <Input
+                        errorMessage='Please enter your last name!'
+                        isSubmitted={isSubmitted}
+                        label='Last'
+                        name='last'
+                        onChange={this.changeField}
+                        placeholder='Enter your last name'
+                        type='text'
+                    />
+                    <Input
+                        errorMessage='Enter your mobile number!'
+                        isSubmitted={isSubmitted}
+                        label='Mobile Number'
+                        max={10}
+                        min={10}
+                        name='mobileNumber'
+                        onChange={this.changeField}
+                        placeholder='Enter your mobile number'
+                        type='number'
+                    />
+                    <Input
+                        errorMessage='Please enter password(Min length is 5)'
+                        isSubmitted={isSubmitted}
+                        label='Password'
+                        min={5}
+                        name='password'
+                        onChange={this.changeField}
+                        placeholder='Password'
+                        type='password'
+                    />
                     <Button variant="primary" type="submit">
                         Submit
-                </Button>
+                    </Button>
                 </Form>
             </>
         );
     }
 }
+
+Register.propTypes = {
+    history: PropTypes.objectOf(PropTypes.object).isRequired,
+    onRegister: PropTypes.func.isRequired
+};
 
 export default Register;

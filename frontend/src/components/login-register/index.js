@@ -11,7 +11,6 @@ import styles from './login.module.css';
 const LoginRegister = (props) => {
     const [activeKey, setActiveKey] = useState('login');
     const { history, loginUser: login, fetchingUser, registerUser: register, isAuthenticated } = props;
-    console.log('isAuthenticated', isAuthenticated);
 
     return isAuthenticated ? (
         <Redirect
@@ -19,7 +18,8 @@ const LoginRegister = (props) => {
                 pathname: '/'
             }}
         />
-    ) : (
+    ) :
+        (
             <div className={styles.wrapper}>
                 <div className={styles.content}>
                     <Tabs defaultActiveKey={activeKey} onSelect={setActiveKey}>
