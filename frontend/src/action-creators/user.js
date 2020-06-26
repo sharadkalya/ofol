@@ -1,45 +1,37 @@
-import { USER_REGISTRATION_IN_PROGRESS, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_FAILED, LOGIN_USER } from "../actions";
+import * as actions from "../actions";
 import * as endpoints from '../endpoints';
+import { postData } from '../repositories/fetch';
 
-const loginRegister = (details, URL, history) => {
-    return (dispatch) => {
+const loginRegister = (details, url, history) => {
+    return async (dispatch) => {
         dispatch({
-            type: USER_REGISTRATION_IN_PROGRESS
+            type: actions.USER_REGISTRATION_IN_PROGRESS
         });
 
-        fetch(URL, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(details)
-        })
-            .then(res => res.json())
-            .then(res => {
-                setTimeout(() => {
-                    if (res.error) {
-                        dispatch({
-                            type: USER_REGISTRATION_FAILED,
-                            payload: res.error
-                        });
-                    } else {
-                        dispatch({
-                            type: USER_REGISTRATION_SUCCESS,
-                            payload: res
-                        });
-                        history.replace('/');
-                    }
-                }, 1000);
-            })
-            .catch((error) => {
-                dispatch({
-                    type: USER_REGISTRATION_FAILED,
-                    payload: error
-                });
+        try {
+            const res = await postData(url, {
+                body: details
             });
+            if (res.error) {
+                dispatch({
+                    payload: res.error,
+                    type: actions.USER_REGISTRATION_FAILED
+                });
+            } else {
+                dispatch({
+                    payload: res,
+                    type: actions.USER_REGISTRATION_SUCCESS
+                });
+                history.replace('/');
+            }
+        } catch (error) {
+            dispatch({
+                payload: error,
+                type: actions.USER_REGISTRATION_FAILED
+            });
+        }
     };
 };
-
 
 export const loginUser = (details, history) => {
     return dispatch => loginRegister(details, endpoints.login, history)(dispatch);
@@ -49,8 +41,14 @@ export const registerUser = (details, history) => {
     return dispatch => loginRegister(details, endpoints.register, history)(dispatch);
 };
 
+export const logout = () => {
+    return {
+        type: actions.LOGOUT
+    };
+};
+
 export const existingUserLogin = () => {
     return {
-        type: LOGIN_USER
+        type: actions.LOGIN_USER
     };
 };

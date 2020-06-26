@@ -1,4 +1,4 @@
-import { USER_REGISTRATION_IN_PROGRESS, USER_REGISTRATION_FAILED, USER_REGISTRATION_SUCCESS, LOGIN_USER } from "../actions";
+import * as actions from "../actions";
 
 const INITIAL_STATE = {
     error: null,
@@ -9,23 +9,28 @@ const INITIAL_STATE = {
 
 const user = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-
-        case LOGIN_USER: return {
+        case actions.LOGIN_USER: return {
             isAuthenticated: Boolean(localStorage.getItem('isAuthenticated'))
         };
 
-        case USER_REGISTRATION_IN_PROGRESS: return {
+        case actions.LOGOUT:
+            localStorage.removeItem('isAuthenticated');
+            return {
+                isAuthenticated: false
+            };
+
+        case actions.USER_REGISTRATION_IN_PROGRESS: return {
             ...state,
             fetchingUser: true
         };
 
-        case USER_REGISTRATION_FAILED: return {
+        case actions.USER_REGISTRATION_FAILED: return {
             ...state,
             error: action.payload,
             fetchingUser: false
         };
 
-        case USER_REGISTRATION_SUCCESS:
+        case actions.USER_REGISTRATION_SUCCESS:
             localStorage.setItem('isAuthenticated', true);
             return {
                 ...state,
