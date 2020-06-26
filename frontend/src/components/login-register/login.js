@@ -1,44 +1,37 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
+import Input from '../common/input';
 
 export default class Login extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
+            isSubmitted: false,
             mobileNumber: '',
             password: ''
         };
     }
 
-    changeField = (e) => {
+    changeField = (key, value) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [key]: value
         });
     };
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            isSubmitted: true
+        });
 
         const {
             mobileNumber,
             password
         } = this.state;
 
-        const requiredFields = mobileNumber && password;
-
+        const requiredFields =  mobileNumber && password;
         if (!requiredFields) {
-            alert('Please fill all mandatory fields');
-            return;
-        }
-
-        if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
-            alert('Invalid mobile number')
-            return;
-        }
-
-        if (password.length < 5) {
-            alert('Password length should be minimum 5');
             return;
         }
 
@@ -52,28 +45,29 @@ export default class Login extends React.PureComponent {
     };
 
     render() {
+        const {isSubmitted} = this.state;
         return (
             <Form onSubmit={this.onSubmit}>
-                <Form.Group>
-                    <Form.Label>Mobile Number</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter your mobile number"
-                        onChange={this.changeField}
-                        value={this.state.mobileNumber}
-                        name='mobileNumber'
-                    />
-                </Form.Group>
-                <Form.Group onChange={this.changePassword}>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        onChange={this.changeField}
-                        value={this.state.password}
-                        name='password'
-                    />
-                </Form.Group>
+                <Input
+                    errorMessage='Please enter mobile number!'
+                    isSubmitted={isSubmitted}
+                    label='Mobile Number'
+                    max={10}
+                    min={10}
+                    name='mobileNumber'
+                    onChange={this.changeField}
+                    placeholder='Enter your mobile number'
+                    type='number'
+                />
+                <Input
+                    errorMessage='Please enter password!'
+                    isSubmitted={isSubmitted}
+                    label='Password'
+                    name='password'
+                    onChange={this.changeField}
+                    placeholder='Password'
+                    type='password'
+                />
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>

@@ -17,6 +17,7 @@
       "import/newline-after-import": "error",
       "import/prefer-default-export": 0,
       "indent": ["error", 4, { "SwitchCase": 1 }],
+      "react/jsx-props-no-spreading": ["error", {"custom": "ignore"}],
       "react/prop-types": ["error"],
       "react/jsx-sort-props": ["error", {
         "shorthandFirst": true,
